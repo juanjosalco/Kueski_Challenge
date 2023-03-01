@@ -8,10 +8,11 @@ jobs:
     if: ${{ !github.event.issue.pull_request && startsWith(github.event.comment.body, '/branchName ') }}
     runs-on: ubuntu-latest
     steps:
-      - name: Set variables
-        id: set-vars
-        shell: bash
-        run: |
+    permissions: write-all
+      - name:Set variables
+        id:set-vars
+        shell:bash
+        run:|
           echo ${{ github.event.comment.body }} | awk '{
             split($0,arr," ");
             if (arr[2]) {
