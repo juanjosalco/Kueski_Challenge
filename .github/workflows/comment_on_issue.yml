@@ -1,0 +1,28 @@
+name: Comment available commands
+
+on:
+  issues:
+    types: [opened, pinned]
+jobs:
+  commenting-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment for branch nomenclature
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        if: ${{ !github.event.issue.pull_request }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          reactions: eyes
+          body: |
+            To create a branch for this issue, please add a comment using the slash command `/branchName`
+            Example (assuming main as base branch): `/branchName ISSUE_NAME`
+
+            If you want to specify a base branch, it should be named as the second command argument.  
+            If no base branch is specified, `main` will be assumed.
+            Example (specifying base branch): `/branchName ISSUE_NAME BASE_BRANCH`
+
+            Notes:
+            -  Branch nomenclature: `issue name` (e.g: fixing-tests).
+            -  There's no need to specify the issue number in the comment, since it will be automatically added.
+            -  If the branch corresponds to another issue (has a parent issue), please add it as a prefix to the branch (e.g: PARENT_NAME-ISSUE_NAME)
