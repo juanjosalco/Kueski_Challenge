@@ -8,11 +8,10 @@ jobs:
     if: ${{ !github.event.issue.pull_request && startsWith(github.event.comment.body, '/branchName ') }}
     runs-on: ubuntu-latest
     steps:
-    permissions: write-all
-      - name:Set variables
-        id:set-vars
-        shell:bash
-        run:|
+      - name: Set variables
+        id: set-vars
+        shell: bash
+        run: |
           echo ${{ github.event.comment.body }} | awk '{
             split($0,arr," ");
             if (arr[2]) {
@@ -24,7 +23,7 @@ jobs:
               }
             }
           }'
-      - name: Checkout Kueski_Challenge
+      - name: Checkout KoddaMx/KoddaMobile
         if: steps.set-vars.outputs.branch-name
         uses: actions/checkout@v2
         with:
