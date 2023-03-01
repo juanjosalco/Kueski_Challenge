@@ -1,0 +1,51 @@
+name: Automatic branch creation
+on:
+  issue_comment:
+    # Allow to rerun workflow on comment edits.
+    types: [created, edited]
+jobs:
+  check-comment:
+    if: ${{ !github.event.issue.pull_request && startsWith(github.event.comment.body, '/branchName ') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set variables
+        id: set-vars
+        shell: bash
+        run: |
+          echo ${{ github.event.comment.body }} | awk '{
+            split($0,arr," ");
+            if (arr[2]) {
+              print "::set-output name=branch-name::${{ github.event.issue.number}}-"arr[2]
+              if (arr[3]) {
+                print "::set-output name=base-branch::"arr[3]
+              } else {
+                print "::set-output name=base-branch::main"
+              }
+            }
+          }'
+      - name: Checkout KoddaMx/KoddaMobile
+        if: steps.set-vars.outputs.branch-name
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.set-vars.outputs.base-branch }}
+      - name: Act on command
+        id: act-on-command
+        if: steps.set-vars.outputs.branch-name
+        # If branch doesn't already exist, create it, otherwise, skip the branch creation.
+        shell: bash
+        run: |
+          git ls-remote --heads |
+            grep "${{ steps.set-vars.outputs.branch-name }}" >> /dev/null ||
+            (
+              git checkout -b ${{ steps.set-vars.outputs.branch-name }} &&
+              git push origin ${{ steps.set-vars.outputs.branch-name }} &&
+              echo "::set-output name=wasBranchCreated::true"
+            )
+      - name: Comment created branch name
+        if: steps.set-vars.outputs.branch-name && steps.act-on-command.outputs.wasBranchCreated
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          reactions: eyes
+          body: Branch `${{ steps.set-vars.outputs.branch-name }}` was successfully created.
