@@ -23,7 +23,7 @@ jobs:
               }
             }
           }'
-      - name: Checkout KoddaMx/KoddaMobile
+      - name: Checkout Kueski_Challenge
         if: steps.set-vars.outputs.branch-name
         uses: actions/checkout@v2
         with:
