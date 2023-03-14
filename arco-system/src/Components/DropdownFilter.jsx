@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-export default DropdownFilter = (ShowMe) => {
+export default function DropdownFilter(ShowMe) {
   const classes = useStyles();
   return (
     <Box className={ShowMe ? classes.Component1 : classes.Component2}>
