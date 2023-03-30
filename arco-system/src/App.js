@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
+  const [data, setData] = useState(null);
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/hello")
+      .then((res) => res.json())
+      .then((data) => setData(data.message))
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/movies")
+      .then((res) => res.json())
+      .then((data) => setMovies(data.movies));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <p>{data ? data : "Loading..."}</p>
+      {movies.map((movie, index) => {
+        return (
+          <>
+            <h1 key={index}>Nombre: {movie.name}</h1>
+            <h2 key={index}>Duración: {movie.duration}</h2>
+          </>
+        );
+      })}
+    </>
   );
 }
 
