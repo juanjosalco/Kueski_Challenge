@@ -8,8 +8,10 @@ function App() {
   useEffect(() => {
     fetch("/api/hello")
       .then((res) => res.json())
-      .then((data) => setData(data.message))
+      .then((data) => setData(data))
       .catch((err) => console.log(err));
+      // .then((data) => setData(data.message))
+      // .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -20,7 +22,16 @@ function App() {
 
   return (
     <>
-      <p>{data ? data : "Loading..."}</p>
+    {console.log(data)}
+      {data ? data.map((dato, index) => {
+        return (
+          <>
+              <p>{dato.ID}</p>
+              <h5>{dato.F_NAME}</h5>
+          </>
+        )
+        
+      }) : "Loading..."}
       {movies.map((movie, index) => {
         return (
           <>

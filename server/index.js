@@ -8,7 +8,28 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get("/api/hello", (req, res) => {
-  res.json({ message: "Hello from server side!"});
+  var mysql = require('mysql');
+  var con = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+  });
+  con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+  }
+  );
+  var query="USE KUESKI";
+  con.query(query, function (err, result, fields) {
+    if (err) throw err;
+
+  }
+  );
+  var query="SELECT * FROM USERS";
+  con.query(query, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  }
+  );
 });
 
 app.get("/api/pet", (req, res) => {
