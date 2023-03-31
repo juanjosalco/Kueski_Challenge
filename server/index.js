@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
 
-app.get("/api/hello", (req, res) => {
+app.get("/api/users", (req, res) => {
   var mysql = require('mysql');
   var con = mysql.createConnection({
     host: "127.0.0.1",
