@@ -6,7 +6,7 @@ const fs = require("fs");
 const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
-
+//users
 app.get("/api/users", (req, res) => {
   var mysql = require('mysql');
   var con = mysql.createConnection({
@@ -55,6 +55,51 @@ app.get("/api/users/:id", (req, res) => {
   }
   );
 });
+
+//arco
+app.get("/api/arco", (req, res) => {
+  var mysql = require('mysql');
+  var con = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+  });
+  con.connect(function(err) {
+    if (err) throw err;
+  });
+  var query="USE KUESKI";
+  con.query(query, function (err, result, fields) {
+    if (err) throw err;
+
+  });
+  var query="SELECT * FROM SOLICITUD_ARCO";
+  con.query(query, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+});
+app.get("/api/arco/:id", (req, res) => {
+  var mysql = require('mysql');
+  var con = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+  });
+  con.connect(function(err) {
+    if (err) throw err;
+  });
+  var query="USE KUESKI";
+  con.query(query, function (err, result, fields) {
+    if (err) throw err;
+
+  });
+  var query="SELECT * FROM SOLICITUD_ARCO WHERE ID="+req.params.id;
+  con.query(query, function (err, result, fields) {
+    if (err) throw err;
+    res.send(result)
+  });
+});
+
+
+
 
 
 app.get("/api/pet", (req, res) => {
