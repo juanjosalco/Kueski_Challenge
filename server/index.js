@@ -31,6 +31,31 @@ app.get("/api/users", (req, res) => {
   }
   );
 });
+app.get("/api/users/:id", (req, res) => {
+  var mysql = require('mysql');
+  var con = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+  });
+  con.connect(function(err) {
+    if (err) throw err;
+  });
+  var query="USE KUESKI";
+  con.query(query, function (err, result, fields) {
+    if (err) throw err;
+
+  });
+  var query="SELECT * FROM USERS WHERE ID="+req.params.id;
+  con.query(query, function (err, result, fields) {
+    if (err){
+      res.send("No existe el usuario")
+      throw err;
+    }
+    res.send(result)
+  }
+  );
+});
+
 
 app.get("/api/pet", (req, res) => {
   fs.readFile( __dirname + "/" + "pets.json", "utf8", (err, data) => {
