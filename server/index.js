@@ -2,9 +2,9 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require("fs");
-var mysql = require('mysql');
 require('dotenv').config()
-DATABASE_URL='mysql://g1zvh9djkmh1jyrfwkeh:************@aws.connect.psdb.cloud/arco-system?ssl={"rejectUnauthorized":true}'
+const mysql = require('mysql2')
+DATABASE_URL='mysql://5zc4a3arlu33rjbyz18c:pscale_pw_pBlgg20A4tJEA9mzdicHnTMkZwkdb0zGICNgGbyyi9x@aws.connect.psdb.cloud/arco-system?ssl={"rejectUnauthorized":true}'
 const con= mysql.createConnection(process.env.DATABASE_URL)
 const PORT = process.env.PORT || 3001;
 const app = express();
