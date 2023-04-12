@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const fs = require("fs");
 require('dotenv').config()
 const mysql = require('mysql2')
-const db=process.env.DATABASE_URL
+const DB=process.env.DATABASE_URL
 const con= mysql.createConnection(DB)
 const PORT = process.env.PORT || 3001;
 const app = express();
