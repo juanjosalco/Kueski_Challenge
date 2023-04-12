@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const fs = require("fs");
 require('dotenv').config()
 const mysql = require('mysql2')
-DATABASE_URL='mysql://5zc4a3arlu33rjbyz18c:pscale_pw_pBlgg20A4tJEA9mzdicHnTMkZwkdb0zGICNgGbyyi9x@aws.connect.psdb.cloud/arco-system?ssl={"rejectUnauthorized":true}'
-const con= mysql.createConnection(process.env.DATABASE_URL)
+const db=process.env.DATABASE_URL
+const con= mysql.createConnection(DB)
 const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
