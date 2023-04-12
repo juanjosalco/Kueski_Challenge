@@ -2,26 +2,18 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const fs = require("fs");
-
+var mysql = require('mysql');
+require('dotenv').config()
+DATABASE_URL='mysql://g1zvh9djkmh1jyrfwkeh:************@aws.connect.psdb.cloud/arco-system?ssl={"rejectUnauthorized":true}'
+const con= mysql.createConnection(process.env.DATABASE_URL)
 const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
 //users
 app.get("/api/users", (req, res) => {
-  var mysql = require('mysql');
-  var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-  });
   con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
-  }
-  );
-  var query="USE KUESKI";
-  con.query(query, function (err, result, fields) {
-    if (err) throw err;
-
   }
   );
   var query="SELECT * FROM USERS";
@@ -30,20 +22,12 @@ app.get("/api/users", (req, res) => {
     res.send(result)
   }
   );
+  con.end();
 });
 app.get("/api/users/:id", (req, res) => {
-  var mysql = require('mysql');
-  var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-  });
+  const con = mysql.createConnection(process.env.DATABASE_URL)
   con.connect(function(err) {
     if (err) throw err;
-  });
-  var query="USE KUESKI";
-  con.query(query, function (err, result, fields) {
-    if (err) throw err;
-
   });
   var query="SELECT * FROM USERS WHERE ID="+req.params.id;
   con.query(query, function (err, result, fields) {
@@ -58,11 +42,6 @@ app.get("/api/users/:id", (req, res) => {
 
 //arco
 app.get("/api/arco", (req, res) => {
-  var mysql = require('mysql');
-  var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-  });
   con.connect(function(err) {
     if (err) throw err;
   });
@@ -78,11 +57,6 @@ app.get("/api/arco", (req, res) => {
   });
 });
 app.get("/api/arco/:id", (req, res) => {
-  var mysql = require('mysql');
-  var con = mysql.createConnection({
-    host: "127.0.0.1",
-    user: "root",
-  });
   con.connect(function(err) {
     if (err) throw err;
   });
@@ -97,8 +71,6 @@ app.get("/api/arco/:id", (req, res) => {
     res.send(result)
   });
 });
-
-
 
 
 
