@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const fs = require("fs");
 require('dotenv').config()
 const mysql = require('mysql2')
+
 const DB=process.env.DATABASE_URL
 const con= mysql.createConnection(DB)
 const PORT = process.env.PORT || 3001;
@@ -16,7 +17,7 @@ app.get("/api/users", (req, res) => {
     console.log("Connected!");
   }
   );
-  var query="SELECT * FROM USERS";
+  var query="SELECT * FROM USERS JOIN ADDRESS ON USERS.ADDRESS_ID = ADDRESS.ADDRESS_ID JOIN IDENTIFICATIONS ON USERS.ID = IDENTIFICATIONS.USER_ID;";
   con.query(query, function (err, result, fields) {
     if (err) throw err;
     res.send(result)
@@ -29,7 +30,7 @@ app.get("/api/users/:id", (req, res) => {
   con.connect(function(err) {
     if (err) throw err;
   });
-  var query="SELECT * FROM USERS WHERE ID="+req.params.id;
+  var query="SELECT * FROM USERS JOIN ADDRESS ON USERS.ADDRESS_ID = ADDRESS.ADDRESS_ID JOIN IDENTIFICATIONS ON USERS.ID = IDENTIFICATIONS.USER_ID WHERE USERS.ID="+req.params.id;
   con.query(query, function (err, result, fields) {
     if (err){
       res.send("No existe el usuario")
@@ -45,11 +46,6 @@ app.get("/api/arco", (req, res) => {
   con.connect(function(err) {
     if (err) throw err;
   });
-  var query="USE KUESKI";
-  con.query(query, function (err, result, fields) {
-    if (err) throw err;
-
-  });
   var query="SELECT * FROM SOLICITUD_ARCO";
   con.query(query, function (err, result, fields) {
     if (err) throw err;
@@ -60,19 +56,12 @@ app.get("/api/arco/:id", (req, res) => {
   con.connect(function(err) {
     if (err) throw err;
   });
-  var query="USE KUESKI";
-  con.query(query, function (err, result, fields) {
-    if (err) throw err;
-
-  });
   var query="SELECT * FROM SOLICITUD_ARCO WHERE ID="+req.params.id;
   con.query(query, function (err, result, fields) {
     if (err) throw err;
     res.send(result)
   });
 });
-
-
 
 app.get("/api/pet", (req, res) => {
   fs.readFile( __dirname + "/" + "pets.json", "utf8", (err, data) => {
