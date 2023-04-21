@@ -1,6 +1,7 @@
 import React from "react";
 import Table from "../Components/Table";
 import DropdownFilter from "../Components/DropdownFilter";
+import SearchField from "../Components/SearchField";
 
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/material";
@@ -16,6 +17,7 @@ function Dashboard() {
   return (
     <Box className={classes.container}>
         <DropdownFilter/>
+        <SearchField/>
         <Table/>
     </Box>
   )
