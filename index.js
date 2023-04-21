@@ -32,29 +32,9 @@ app.get("/api/users", (req, res) => {
   );
 });
 
-app.get("/api/pet", (req, res) => {
-  fs.readFile( __dirname + "/" + "pets.json", "utf8", (err, data) => {
-    console.log( data );
-    res.end( data );
-  });
-});
-
-app.get("/api/movies", (req, res) => {
-  fs.readFile(__dirname + "/" + "movies.json", "utf8", (err, data) => {
-    res.end(data);
-  })
-})
-
-app.post("/api/pet", (req, res) => {
-  console.log('El cuerpo de la peticion:', req.body);
-});
-
-app.post("/api/movies", (req, res) => {
-  console.log('El cuerpo de la peticion:', req.body);
-  res.send(req.body);
-});
-
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
 
+// Export the Express API
+module.exports = app;
