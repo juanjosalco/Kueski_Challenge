@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     borderInline: '2px solid black'
   },
   bigItem: {
-    flex: 3,
+    flex: 5,
     textAlign: 'center',
     borderInline: '2px solid black'
   }
@@ -56,13 +56,13 @@ function Table() {
         <Box className={classes.bigItem}>
           <h3>Nombre</h3>
         </Box>
-        <Box className={classes.item}>
+        <Box className={classes.bigItem}>
           <h3>F. Nacimiento</h3>
         </Box>
         <Box className={classes.item}>
           <h3>Nacionalidad</h3>
         </Box>
-        <Box className={classes.item}>
+        <Box className={classes.bigItem}>
           <h3>Estado</h3>
         </Box>
         <Box className={classes.bigItem}>
@@ -85,13 +85,13 @@ function Table() {
                 <Box className={classes.bigItem}>
                   <h3>{dato.F_NAME + ' ' + dato.LNAME1 + ' ' + dato.LNAME2}</h3>
                 </Box>
-                <Box className={classes.item}>
+                <Box className={classes.bigItem}>
                   <h3>{dato.BIRTH_DATE.substring(0, 10)}</h3>
                 </Box>
                 <Box className={classes.item}>
                   <h3>{dato.NATIONALITY}</h3>
                 </Box>
-                <Box className={classes.item}>
+                <Box className={classes.bigItem}>
                   <h3>{dato.STATE_BORN_IN}</h3>
                 </Box>
                 <Box className={classes.bigItem}>
