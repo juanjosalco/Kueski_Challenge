@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import DropdownFilter from './Components/DropdownFilter';
+import Dashboard from "./Views/Dashboard";
 
 function App() {
   return (
-    <DropdownFilter/>
-  );
+    <Dashboard/>
+  )
 }
 
 export default App;
