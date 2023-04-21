@@ -7,17 +7,16 @@ const mysql = require('mysql2')
 
 const DB=process.env.DATABASE_URL
 const con= mysql.createConnection(DB)
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
 const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
 //users
-app.get("/api/users", (req, res) => {
-  con.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
-  }
-  );
-  var query="SELECT * FROM USERS JOIN ADDRESS ON USERS.ADDRESS_ID = ADDRESS.ADDRESS_ID JOIN IDENTIFICATIONS ON USERS.ID = IDENTIFICATIONS.USER_ID;";
+app.get("/api/users/:sort", (req, res) => {
+  var query="SELECT * FROM USERS JOIN ADDRESS ON USERS.ADDRESS_ID = ADDRESS.ADDRESS_ID JOIN IDENTIFICATIONS ON USERS.ID = IDENTIFICATIONS.USER_ID ORDER BY "+req.params.sort;
   con.query(query, function (err, result, fields) {
     if (err) throw err;
     res.send(result)
@@ -26,10 +25,6 @@ app.get("/api/users", (req, res) => {
   con.end();
 });
 app.get("/api/users/:id", (req, res) => {
-  const con = mysql.createConnection(process.env.DATABASE_URL)
-  con.connect(function(err) {
-    if (err) throw err;
-  });
   var query="SELECT * FROM USERS JOIN ADDRESS ON USERS.ADDRESS_ID = ADDRESS.ADDRESS_ID JOIN IDENTIFICATIONS ON USERS.ID = IDENTIFICATIONS.USER_ID WHERE USERS.ID="+req.params.id;
   con.query(query, function (err, result, fields) {
     if (err){
@@ -65,9 +60,6 @@ app.put('/users/:id', async (req, res) => {
 
 //arco
 app.get("/api/arco", (req, res) => {
-  con.connect(function(err) {
-    if (err) throw err;
-  });
   var query="SELECT * FROM SOLICITUD_ARCO";
   con.query(query, function (err, result, fields) {
     if (err) throw err;
@@ -75,9 +67,6 @@ app.get("/api/arco", (req, res) => {
   });
 });
 app.get("/api/arco/:id", (req, res) => {
-  con.connect(function(err) {
-    if (err) throw err;
-  });
   var query="SELECT * FROM SOLICITUD_ARCO WHERE ID="+req.params.id;
   con.query(query, function (err, result, fields) {
     if (err) throw err;
